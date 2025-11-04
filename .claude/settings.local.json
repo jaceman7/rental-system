@@ -25,7 +25,13 @@
       "Read(//c/Users/오종열/Desktop/**)",
       "Bash(npx tsx:*)",
       "Bash(ngrok version:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(gh:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
