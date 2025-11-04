@@ -66,7 +66,7 @@ async function main() {
       model: 'Air 2S',
       serialNumber: 'DJI-004',
       description: '1인치 CMOS 센서가 장착된 고급형 드론입니다.',
-      status: 'MAINTENANCE',
+      status: 'UNAVAILABLE',
     },
   })
 

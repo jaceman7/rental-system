@@ -47,7 +47,7 @@ async function seedDatabase() {
         name: 'DJI Air 2S',
         model: 'Air 2S',
         description: '1인치 CMOS 센서가 장착된 고급형 드론입니다.',
-        status: 'MAINTENANCE' as const,
+        status: 'UNAVAILABLE' as const,
       },
       {
         serialNumber: 'DJI-005',
