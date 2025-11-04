@@ -4,7 +4,6 @@ export const dynamic = 'force-dynamic'
 
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle, XCircle, User, Clock } from 'lucide-react'
@@ -26,13 +25,20 @@ interface User {
 
 export default function AdminUsers() {
   const { data: session } = useSession()
-  const searchParams = useSearchParams()
-  const view = searchParams.get('view') || 'all' // 'pending', 'password-reset', or 'all'
+  const [view, setView] = useState('all')
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedLevels, setSelectedLevels] = useState<Record<string, string>>({})
 
   useEffect(() => {
+    // Get view from URL on client side only
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const viewParam = params.get('view')
+      if (viewParam) {
+        setView(viewParam)
+      }
+    }
     fetchUsers()
   }, [])
 
