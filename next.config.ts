@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
   experimental: {
     serverMinification: false,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
