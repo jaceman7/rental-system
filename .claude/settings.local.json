@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run:*)",
+      "Bash(npx prisma:*)",
+      "Bash(curl:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(timeout 10 curl -X POST http://localhost:3000/api/auth/callback/credentials -H \"Content-Type: application/json\" -d '{\"\"email\"\":\"\"admin@drone-rental.com\"\",\"\"password\"\":\"\"admin123\"\"}')",
+      "Bash(tasklist)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(cmd /c:*)",
+      "Bash(timeout:*)",
+      "Bash(dir:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(powershell:*)",
+      "Bash(git checkout:*)",
+      "Bash(sqlite3:*)",
+      "Bash(Select-String -Pattern \"Matrice\")",
+      "Read(//c/Users/오종열/Desktop/**)",
+      "Bash(npx tsx:*)",
+      "Bash(ngrok version:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "model": "claude-opus-4-20250514",
+  "outputStyle": "default"
+}
