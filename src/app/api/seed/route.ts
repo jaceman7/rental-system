@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 
-export async function POST(request: NextRequest) {
+async function seedDatabase() {
   try {
     // 기본 관리자 계정 생성
     const hashedPassword = await bcrypt.hash('admin123', 12)
@@ -80,4 +80,12 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+export async function GET(request: NextRequest) {
+  return seedDatabase()
+}
+
+export async function POST(request: NextRequest) {
+  return seedDatabase()
 }
