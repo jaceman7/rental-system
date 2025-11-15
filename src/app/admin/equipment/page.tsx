@@ -31,6 +31,7 @@ export default function AdminEquipment() {
     serialNumber: '',
     description: '',
   })
+  const [draggedItem, setDraggedItem] = useState<Equipment | null>(null)
 
   useEffect(() => {
     fetchEquipment()
@@ -153,6 +154,59 @@ export default function AdminEquipment() {
     } catch (error) {
       console.error('드론 삭제 실패:', error)
       alert('드론 삭제 중 오류가 발생했습니다.')
+    }
+  }
+
+  const handleDragStart = (e: React.DragEvent, item: Equipment) => {
+    setDraggedItem(item)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = async (e: React.DragEvent, targetItem: Equipment) => {
+    e.preventDefault()
+
+    if (!draggedItem || draggedItem.id === targetItem.id) {
+      setDraggedItem(null)
+      return
+    }
+
+    const items = [...equipment]
+    const draggedIndex = items.findIndex(item => item.id === draggedItem.id)
+    const targetIndex = items.findIndex(item => item.id === targetItem.id)
+
+    // 배열에서 항목 이동
+    items.splice(draggedIndex, 1)
+    items.splice(targetIndex, 0, draggedItem)
+
+    // UI 즉시 업데이트
+    setEquipment(items)
+    setDraggedItem(null)
+
+    // 서버에 새 순서 저장
+    try {
+      const response = await fetch('/api/equipment/reorder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          equipmentIds: items.map(item => item.id)
+        }),
+      })
+
+      if (!response.ok) {
+        alert('순서 저장에 실패했습니다.')
+        fetchEquipment() // 실패 시 원래 순서로 되돌림
+      }
+    } catch (error) {
+      console.error('순서 저장 실패:', error)
+      alert('순서 저장 중 오류가 발생했습니다.')
+      fetchEquipment()
     }
   }
 
@@ -407,21 +461,37 @@ export default function AdminEquipment() {
       <Card>
         <CardHeader>
           <CardTitle>드론 목록</CardTitle>
-          <CardDescription>등록된 모든 드론 목록 및 상태</CardDescription>
+          <CardDescription>등록된 모든 드론 목록 및 상태 (드래그하여 순서 변경 가능)</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {equipment.map((eq) => (
-              <div key={eq.id} className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <h3 className="font-medium">{eq.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {eq.model} | {eq.serialNumber}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{eq.description}</p>
-                  <p className="text-xs text-muted-foreground">
-                    등록일: {new Date(eq.createdAt).toLocaleDateString()}
-                  </p>
+              <div
+                key={eq.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, eq)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, eq)}
+                className={`flex items-center justify-between p-4 border rounded-lg cursor-move transition-all ${
+                  draggedItem?.id === eq.id ? 'opacity-50 scale-95' : 'hover:shadow-md'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-gray-400 cursor-grab active:cursor-grabbing">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{eq.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {eq.model} | {eq.serialNumber}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{eq.description}</p>
+                    <p className="text-xs text-muted-foreground">
+                      등록일: {new Date(eq.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-xs px-2 py-1 rounded ${getStatusColor(eq.status)}`}>

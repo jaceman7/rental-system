@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     }
 
     const equipment = await prisma.equipment.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { displayOrder: 'asc' }
     })
 
     return NextResponse.json(equipment)
