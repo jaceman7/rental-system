@@ -118,11 +118,12 @@ export default function AdminEquipment() {
         alert('드론이 성공적으로 수정되었습니다.')
       } else {
         const error = await response.json()
-        alert(error.error || '드론 수정에 실패했습니다.')
+        console.error('수정 실패 응답:', error)
+        alert(`드론 수정 실패: ${error.error || '알 수 없는 오류'}`)
       }
     } catch (error) {
       console.error('드론 수정 실패:', error)
-      alert('드론 수정 중 오류가 발생했습니다.')
+      alert(`드론 수정 중 오류: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
     }
   }
 
