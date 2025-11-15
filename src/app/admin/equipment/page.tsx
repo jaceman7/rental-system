@@ -317,7 +317,7 @@ export default function AdminEquipment() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">시리얼 번호</label>
+                  <label className="block text-sm font-medium mb-2">장치신고번호</label>
                   <Input
                     value={editingEquipment.serialNumber}
                     onChange={(e) => setEditingEquipment({ ...editingEquipment, serialNumber: e.target.value })}
@@ -374,7 +374,7 @@ export default function AdminEquipment() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">시리얼 번호</label>
+                  <label className="block text-sm font-medium mb-2">장치신고번호</label>
                   <Input
                     value={newEquipment.serialNumber}
                     onChange={(e) => setNewEquipment({ ...newEquipment, serialNumber: e.target.value })}
