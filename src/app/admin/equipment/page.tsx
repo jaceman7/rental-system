@@ -52,6 +52,9 @@ export default function AdminEquipment() {
 
   const addEquipment = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    console.log('등록 시도:', newEquipment)
+
     try {
       const response = await fetch('/api/equipment', {
         method: 'POST',
@@ -61,6 +64,8 @@ export default function AdminEquipment() {
         body: JSON.stringify(newEquipment),
       })
 
+      console.log('응답 상태:', response.status)
+
       if (response.ok) {
         setNewEquipment({ name: '', model: '', serialNumber: '', description: '' })
         setShowAddForm(false)
@@ -68,11 +73,12 @@ export default function AdminEquipment() {
         alert('드론이 성공적으로 등록되었습니다.')
       } else {
         const error = await response.json()
-        alert(error.error || '드론 등록에 실패했습니다.')
+        console.error('등록 실패 응답:', error)
+        alert(`드론 등록 실패: ${error.error || '알 수 없는 오류'}`)
       }
     } catch (error) {
       console.error('드론 등록 실패:', error)
-      alert('드론 등록 중 오류가 발생했습니다.')
+      alert(`드론 등록 중 오류: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
     }
   }
 
