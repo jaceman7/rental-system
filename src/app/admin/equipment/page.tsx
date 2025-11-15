@@ -309,7 +309,7 @@ export default function AdminEquipment() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">기체고유번호</label>
+                  <label className="block text-sm font-medium mb-2">기체 S/N</label>
                   <Input
                     value={editingEquipment.model}
                     onChange={(e) => setEditingEquipment({ ...editingEquipment, model: e.target.value })}
@@ -365,7 +365,7 @@ export default function AdminEquipment() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">기체고유번호</label>
+                  <label className="block text-sm font-medium mb-2">기체 S/N</label>
                   <Input
                     value={newEquipment.model}
                     onChange={(e) => setNewEquipment({ ...newEquipment, model: e.target.value })}
